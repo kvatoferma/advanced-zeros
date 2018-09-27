@@ -1,7 +1,7 @@
 module.exports =
 function getZerosCount(number, base) {
-  const factorize = require('./factorize');
-  const countNumberSeries = require('./countNumberSeries');
+  const factorize = require('../js/factorize');
+  const countNumberSeries = require('../js/countNumberSeries');
   let factorizedBase = factorize(base);
   let maxDivider = parseInt(Object.keys(factorizedBase).pop());
   let powerOfMaxDivider = factorizedBase[maxDivider];
