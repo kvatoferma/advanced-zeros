@@ -7,9 +7,22 @@ function getZerosCount(number, base) {
       for (let i = 2; i <= num; i++) {
         numbers.push(i);
       }
+      console.log('plain numbers: ', numbers);
       return numbers;
     }
 
+    const removeMultiple = (numbers, p) => {
+  for (let i = 0; i < numbers.length; i++) {
+    if ((numbers[i] !== p) && (numbers[i] % p === 0)) {
+      numbers.splice(i, 1);
+    }
+  }
+  console.log('prime numbers without multiples: ', numbers);
+  return numbers;
+}
+
+
+/*
     const removeMultiple = (numbers, p) => {
       numbers.forEach((number, i) => {
         if ((number !== p) && (number % p === 0)) {
@@ -19,7 +32,7 @@ function getZerosCount(number, base) {
       console.log('prime numbers: ', numbers);
       return numbers;
     }
-
+*/
     let numbers = makeNumbersTo(num);
     for (let i = 0; i < numbers.length; i++) {
       while (numbers[i]**2 <= num) {
@@ -54,17 +67,56 @@ function getZerosCount(number, base) {
         // if (num % prime === 0) {
         // let power = Math.floor(Math.log(num) / Math.log(prime));
         let power = rlog(num, prime);
-        powers[prime] = power;
-        console.log('prime: ', prime, ' power: ', power);
+        if (power > 0) {
+          powers[prime] = power;
+        }
         num = num / (prime ** power);
-        console.log('new number: ', num);
+        console.log('num in factorize: ', num);
       });
     return powers;
   }
 
-  let factorizedBase = factorize(base);
+/*
+  const factorize = num => {
+    let powers = {};
+    const primes = makePrimesTo(num);
+      primes.forEach(prime => {
+        // if (num % prime === 0) {
+        // let power = Math.floor(Math.log(num) / Math.log(prime));
+        let power = rlog(num, prime);
+        if (power > 0) {
+          powers[prime] = power;
+        }
+        num = num / (prime ** power);
+      });
+    return powers;
+  }
+*/
 
-  console.log('factorize number: ', factorizedNumber);
+  let factorizedBase = factorize(base);
+  console.log('factorize: ', factorizedBase);
+  let maxDivider = parseInt(Object.keys(factorizedBase).pop());
+  let powerOfMaxDivider = factorizedBase[maxDivider];
+  // console.log('powerOfMaxDivider: ', powerOfMaxDivider);
+
+  const countPowerOfDividers = (number, base) => {
+    let power = 1;
+    let sum = 0;
+    while (Math.floor(number / (base ** power) > 0)) {
+      sum += Math.floor(number / (base ** power));
+      power++;
+    }
+    return { 'base': base, 'sum': sum }
+  }
+
+  // console.log('base and sum: ', JSON.stringify(countPowerOfDividers(700, 3)));
+
+  let res = countPowerOfDividers(number, maxDivider);
+  res.power = powerOfMaxDivider;
+  console.log('res: ', res);
+
+
+  console.log('factorize number: ', factorizedBase);
 
 
 
@@ -73,4 +125,4 @@ function getZerosCount(number, base) {
 
 }
 
-getZerosCount(50, 50);
+getZerosCount(120, 10);
